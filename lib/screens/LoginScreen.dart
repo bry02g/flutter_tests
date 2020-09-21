@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.lightBlue,
-            title: Text('Seconds Formater Calculator'),
+            title: Text('Time Formater'),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),

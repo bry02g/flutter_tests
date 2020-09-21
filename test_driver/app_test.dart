@@ -3,27 +3,20 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Conversion App', () {
-    // First, define the Finders and use them to locate widgets from the
-    // test suite. Note: the Strings provided to the `byValueKey` method must
-    // be the same as the Strings we used for the Keys in step 1.
-    final counterTextFinder = find.byValueKey('counter');
-    final buttonFinder = find.byValueKey('increment');
+  FlutterDriver driver;
 
-    FlutterDriver driver;
+  // Connect to the Flutter driver before running any tests.
+  setUpAll(() async {
+    driver = await FlutterDriver.connect();
+  });
 
-    // Connect to the Flutter driver before running any tests.
-    setUpAll(() async {
-      driver = await FlutterDriver.connect();
-    });
-
-    // Close the connection to the driver after the tests have completed.
-    tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
-
+  // Close the connection to the driver after the tests have completed.
+  tearDownAll(() async {
+    if (driver != null) {
+      driver.close();
+    }
+  });
+  group("Login Screen:", () {
     test("If credential are not entered should not be able to login", () async {
       final loginHeaderFidner = find.byValueKey('login-header');
       final doneBtnFinder = find.byValueKey('done-btn');
@@ -70,7 +63,7 @@ void main() {
       expect(await driver.getText(loginHeaderFidner), "Login");
     });
 
-    test('if username and password is provided you should be able to login',
+    test('if username and password are provided you should be able to login',
         () async {
       final usernameFinder = find.byValueKey('username-textfield');
       final passwordFinder = find.byValueKey('password-textfield');
@@ -90,9 +83,25 @@ void main() {
 
       expect(await driver.getText(textLabelInConversionScreen), "Enter Time");
     });
+  });
 
-    test(
-        'Should diplay formated text when seconds is provided and convert is pressed',
+  group("ConversionScreen:", () {
+    test('if 30 sec are entered should display 00:30 in the format mm:ss',
+        () async {
+      final formatedTextFinder = find.byValueKey('formated-time');
+      final inputTextFieldFinder = find.byValueKey('seconds-textfield');
+      final converBtnFinder = find.byValueKey('convert-button');
+
+      await driver.tap(inputTextFieldFinder);
+      await driver.enterText('30');
+      await driver.waitFor(find.text('30'));
+
+      await driver.tap(converBtnFinder);
+
+      expect(await driver.getText(formatedTextFinder), "00:30");
+    });
+
+    test('if 60 sec are entered should display 01:00 in the format mm:ss',
         () async {
       final formatedTextFinder = find.byValueKey('formated-time');
       final inputTextFieldFinder = find.byValueKey('seconds-textfield');
@@ -105,6 +114,22 @@ void main() {
       await driver.tap(converBtnFinder);
 
       expect(await driver.getText(formatedTextFinder), "01:00");
+    });
+
+    test(
+        'if 3600 sec are entered should display 01:00:00 in the format hh:mm:ss',
+        () async {
+      final formatedTextFinder = find.byValueKey('formated-time');
+      final inputTextFieldFinder = find.byValueKey('seconds-textfield');
+      final converBtnFinder = find.byValueKey('convert-button');
+
+      await driver.tap(inputTextFieldFinder);
+      await driver.enterText('3600');
+      await driver.waitFor(find.text('3600'));
+
+      await driver.tap(converBtnFinder);
+
+      expect(await driver.getText(formatedTextFinder), "01:00:00");
     });
   });
 }
