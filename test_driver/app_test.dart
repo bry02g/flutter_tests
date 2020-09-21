@@ -20,10 +20,6 @@ void main() {
     test("If credential are not entered should not be able to login", () async {
       final loginHeaderFidner = find.byValueKey('login-header');
       final doneBtnFinder = find.byValueKey('done-btn');
-
-      await driver.tap(doneBtnFinder);
-
-      expect(await driver.getText(loginHeaderFidner), "Login");
     });
 
     test(
@@ -32,14 +28,6 @@ void main() {
       final loginHeaderFidner = find.byValueKey('login-header');
       final usernameFinder = find.byValueKey('username-textfield');
       final doneBtnFinder = find.byValueKey('done-btn');
-
-      await driver.tap(usernameFinder);
-      await driver.enterText('flutter_coder');
-      await driver.waitFor(find.text('flutter_coder'));
-
-      await driver.tap(doneBtnFinder);
-
-      expect(await driver.getText(loginHeaderFidner), "Login");
     });
 
     test(
@@ -49,18 +37,8 @@ void main() {
       final usernameFinder = find.byValueKey('username-textfield');
       final passwordFinder = find.byValueKey('password-textfield');
       final doneBtnFinder = find.byValueKey('done-btn');
-      // clear username field
-      await driver.tap(usernameFinder);
-      await driver.enterText('');
-      await driver.waitFor(find.text(''));
 
-      await driver.tap(passwordFinder);
-      await driver.enterText('flutter is life');
-      await driver.waitFor(find.text('flutter is life'));
-
-      await driver.tap(doneBtnFinder);
-
-      expect(await driver.getText(loginHeaderFidner), "Login");
+      // HINT: Don't forget to clear username textfield from previous test
     });
 
     test('if username and password are provided you should be able to login',
@@ -71,17 +49,6 @@ void main() {
 
       final textLabelInConversionScreen =
           find.byValueKey('input-texfield-label');
-      await driver.tap(usernameFinder);
-      await driver.enterText('flutter_coder');
-      await driver.waitFor(find.text('flutter_coder'));
-
-      await driver.tap(passwordFinder);
-      await driver.enterText('flutter is life');
-      await driver.waitFor(find.text('flutter is life'));
-
-      await driver.tap(doneBtnFinder);
-
-      expect(await driver.getText(textLabelInConversionScreen), "Enter Time");
     });
   });
 
@@ -91,14 +58,6 @@ void main() {
       final formatedTextFinder = find.byValueKey('formated-time');
       final inputTextFieldFinder = find.byValueKey('seconds-textfield');
       final converBtnFinder = find.byValueKey('convert-button');
-
-      await driver.tap(inputTextFieldFinder);
-      await driver.enterText('30');
-      await driver.waitFor(find.text('30'));
-
-      await driver.tap(converBtnFinder);
-
-      expect(await driver.getText(formatedTextFinder), "00:30");
     });
 
     test('if 60 sec are entered should display 01:00 in the format mm:ss',
@@ -106,14 +65,6 @@ void main() {
       final formatedTextFinder = find.byValueKey('formated-time');
       final inputTextFieldFinder = find.byValueKey('seconds-textfield');
       final converBtnFinder = find.byValueKey('convert-button');
-
-      await driver.tap(inputTextFieldFinder);
-      await driver.enterText('60');
-      await driver.waitFor(find.text('60'));
-
-      await driver.tap(converBtnFinder);
-
-      expect(await driver.getText(formatedTextFinder), "01:00");
     });
 
     test(
@@ -122,14 +73,6 @@ void main() {
       final formatedTextFinder = find.byValueKey('formated-time');
       final inputTextFieldFinder = find.byValueKey('seconds-textfield');
       final converBtnFinder = find.byValueKey('convert-button');
-
-      await driver.tap(inputTextFieldFinder);
-      await driver.enterText('3600');
-      await driver.waitFor(find.text('3600'));
-
-      await driver.tap(converBtnFinder);
-
-      expect(await driver.getText(formatedTextFinder), "01:00:00");
     });
   });
 }
